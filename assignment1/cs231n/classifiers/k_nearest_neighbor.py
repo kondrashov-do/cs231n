@@ -78,7 +78,7 @@ class KNearestNeighbor(object):
         # not use a loop over dimension.                                    #
         #####################################################################
         #pass
-        dists[i,j] = np.sqrt(np.sum(np.square(self.X_train[j] - X[i])))
+        dists[i,j] = np.sum(np.square(self.X_train[j] - X[i]))
         ###########################################self.y_train##########################
         #                       END OF YOUR CODE                            #
         #####################################################################
@@ -103,7 +103,7 @@ class KNearestNeighbor(object):
       # points, and store the result in dists[i, :].                        #
       #######################################################################
       #pass
-      dists[i] = np.sqrt(np.sum(np.square(self.X_train - X[i]), axis = 1))
+      dists[i] = np.sum(np.square(self.X_train - X[i]), axis = 1)
 
       #######################################################################
       #                         END OF YOUR CODE                            #
@@ -133,7 +133,9 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+    #pass
+    dists = -2 * np.dot(X, self.X_train.T) + np.sum(self.X_train**2,
+    axis=1) + np.sum(X**2, axis=1)[:, np.newaxis]
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -154,7 +156,7 @@ class KNearestNeighbor(object):
     """
     num_test = dists.shape[0]
     y_pred = np.zeros(num_test)
-    print("Test number", num_test)
+    #print("Test number", num_test)
     for i in xrange(num_test):
       # A list of length k storing the labels of the k nearest neighbors to
       # the ith test point.
